@@ -1,0 +1,35 @@
+{
+  "name": "qbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "./build/go-cqhttp",
+    "bot": "tsc && node dist",
+    "start": "koishi start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beetcb/qbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/beetcb/qbot/issues"
+  },
+  "homepage": "https://github.com/beetcb/qbot#readme",
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.10",
+    "koishi": "^3.7.1",
+    "koishi-adapter-onebot": "^3.0.6",
+    "koishi-plugin-common": "^4.2.2",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cqhttp": "^1.2.0",
+    "go-cqwebsocket": "^4.1.1",
+    "node-fetch": "^2.6.1",
+    "socket.io": "^4.0.1"
+  }
+}
