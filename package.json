@@ -26,10 +26,6 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "cqhttp": "^1.2.0",
-    "go-cqwebsocket": "^4.1.1",
-    "node-fetch": "^2.6.1",
-    "socket.io": "^4.0.1"
+    "node-fetch": "^2.6.1"
   }
 }
