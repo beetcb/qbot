@@ -1,7 +1,5 @@
-# go-cqhttp 默认配置文件
-
 account: # 账号相关
-  uin: 2293213908 # QQ账号
+  uin: 1764237497 # QQ账号
   password: '' # 密码为空时使用扫码登录
   encrypt: false # 是否开启密码加密
   status: 0 # 在线状态 请参考 https://github.com/Mrs4s/go-cqhttp/blob/dev/docs/config.md#在线状态
@@ -43,7 +41,7 @@ message:
   extra-reply-data: false
 
 output:
-  # 日志等级 trace,debug,info,warn,error日志等级 trace,debug,info,warn,error
+  # 日志等级 trace,debug,info,warn,error
   log-level: warn
   # 是否启用 DEBUG
   debug: false # 开启调试模式
@@ -79,19 +77,12 @@ servers:
         <<: *default # 引用默认中间件
       # 反向HTTP POST地址列表
       post:
-<<<<<<< HEAD
-        #- url: '' # 地址
-        #  secret: ''           # 密钥
-        #- url: 127.0.0.1:5701 # 地址
-        #  secret: ''          # 密钥
-=======
         - url: '127.0.0.1:5701'
           secret: ''
       #- url: '' # 地址
       #  secret: ''           # 密钥
       #- url: 127.0.0.1:5701 # 地址
       #  secret: ''          # 密钥
->>>>>>> cfccb9e (feat: post msg with http, replace ws)
 
   # 正向WS设置
   - ws:
@@ -118,11 +109,22 @@ servers:
       reconnect-interval: 3000
       middlewares:
         <<: *default # 引用默认中间件
+  # pprof 性能分析服务器, 一般情况下不需要启用.
+  # 如果遇到性能问题请上传报告给开发者处理
+  # 注意: pprof服务不支持中间件、不支持鉴权. 请不要开放到公网
+  - pprof:
+      # 是否禁用pprof性能分析服务器
+      disabled: true
+      # pprof服务器监听地址
+      host: 127.0.0.1
+      # pprof服务器监听端口
+      port: 7700
 
   # 可添加更多
   #- ws-reverse:
   #- ws:
   #- http:
+  #- pprof:
 
 database: # 数据库相关设置
   leveldb:

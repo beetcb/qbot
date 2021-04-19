@@ -1,20 +1,96 @@
 import fetch from 'node-fetch'
+import crypto from 'crypto'
+import { config } from 'dotenv'
+import { resolve } from 'path'
 import { Context } from 'koishi'
-import { translate } from '../utils/deepl'
+
+config({ path: resolve(__dirname, '../../.env') })
+
+const { app_id, app_key, api_endpoint } = process.env
+
+interface ReqParamsObject {
+  app_id: number
+  time_stamp: number
+  nonce_string: string
+  session: string
+  question: string
+  sign?: string
+}
+
+type ParamsKeys = keyof ReqParamsObject
 
 const targetUsers: Array<string> = ['2293213908', '2384571336']
 
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
     if (targetUsers.includes(session.userId!)) {
-      const reply = await charBot(session.content!)
+      const reply = await charBot(session.content!, session.userId!)
       reply && session.send(reply)
     }
     return next()
   })
 }
 
-async function charBot(content: string): Promise<string | undefined> {
-  const res = await translate('ZH', 'EN', content)
-  return res[0]
+async function charBot(content: string, session: string): Promise<string | undefined> {
+  if (app_id) {
+    const reqParams: ReqParamsObject = {
+      app_id: Number(app_id),
+      time_stamp: new Date().getTime(),
+      nonce_string: randomString(),
+      question: content,
+      session: session,
+    }
+
+    reqParams.sign = tRepSign(reqParams)
+
+    if (api_endpoint) {
+      const res = await fetch(api_endpoint, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify(reqParams),
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        return data.answer
+      }
+    }
+  } else {
+    throw new Error('environment variable not found: app_id')
+  }
+}
+
+function randomString(): string {
+  const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+  return Array(8)
+    .fill(null)
+    .reduce((s = '') => (s += str.charAt(Math.floor(Math.random() * 48))), '')
+}
+
+function tRepSign(reqParams: ReqParamsObject): string {
+  type SignParamsObject = { [P in keyof ReqParamsObject]?: number | string } & { app_key?: string }
+  const result: SignParamsObject = {}
+
+  // Step 1 & 2
+  ;(Object.keys(reqParams) as ParamsKeys[])
+    .sort((a, b) => (a > b ? 1 : -1))
+    .forEach((key: ParamsKeys) => {
+      result[key] = reqParams[key]
+    })
+
+  // Step 3
+  if (app_key) {
+    result.app_key = app_key
+  } else {
+    throw new Error('environment variable not found: app_key')
+  }
+
+  // Step 4
+  return crypto
+    .createHash('md5')
+    .update(new URLSearchParams(result as any).toString(), 'utf8')
+    .digest('hex')
+    .toUpperCase()
 }
