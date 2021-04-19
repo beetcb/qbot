@@ -65,7 +65,7 @@ servers:
   # HTTP 通信设置
   - http:
       # 是否关闭正向HTTP服务器
-      disabled: false
+      disabled: true
       # 服务端监听地址
       host: 127.0.0.1
       # 服务端监听端口
@@ -77,7 +77,7 @@ servers:
         <<: *default # 引用默认中间件
       # 反向HTTP POST地址列表
       post:
-        - url: '127.0.0.1:5701'
+        - url: 127.0.0.1:5701
           secret: ''
       #- url: '' # 地址
       #  secret: ''           # 密钥
@@ -87,7 +87,7 @@ servers:
   # 正向WS设置
   - ws:
       # 是否禁用正向WS服务器
-      disabled: true
+      disabled: false
       # 正向WS服务器监听地址
       host: 127.0.0.1
       # 正向WS服务器监听端口
