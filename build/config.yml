@@ -1,5 +1,5 @@
 account: # 账号相关
-  uin: 1764237497 # QQ账号
+  uin: 2293213908 # QQ账号
   password: '' # 密码为空时使用扫码登录
   encrypt: false # 是否开启密码加密
   status: 0 # 在线状态 请参考 https://github.com/Mrs4s/go-cqhttp/blob/dev/docs/config.md#在线状态

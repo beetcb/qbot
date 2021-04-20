@@ -19,7 +19,7 @@ interface ReqParamsObject {
 
 type ParamsKeys = keyof ReqParamsObject
 
-const targetUsers: Array<string> = ['2293213908', '2384571336']
+const targetUsers: Array<string> = ['2293213908', '2384571336', '1764237497']
 
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
@@ -46,7 +46,6 @@ async function charBot(content: string, session: string): Promise<string | undef
       const res = await fetch(`${api_endpoint}?${new URLSearchParams(reqParams as any).toString()}`)
       if (res.ok) {
         const data = await res.json()
-        console.log(data)
         return data.data.answer
       }
     }
@@ -79,8 +78,6 @@ function tRepSign(reqParams: ReqParamsObject): string {
   } else {
     throw new Error('environment variable not found: app_key')
   }
-
-  console.log(new URLSearchParams(result as any).toString())
 
   // Step 4
   return crypto

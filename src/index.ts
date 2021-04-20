@@ -6,7 +6,7 @@ require('koishi-adapter-onebot')
 
 const config = {
   type: 'onebot:ws',
-  selfId: '1764237497',
+  selfId: '2293213908',
   server: 'ws://localhost:6700',
 }
 
