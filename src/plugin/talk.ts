@@ -24,7 +24,6 @@ export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
     const { content, userId } = session
     if (session.subtype! === 'private') {
-      console.log(session)
       const reply = await charBot(content!, userId!)
       reply && session.send(reply)
     } else {
