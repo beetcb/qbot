@@ -1,0 +1,33 @@
+import fetch from 'node-fetch'
+import { Context } from 'koishi'
+import { cqCreator, CQType } from '../cqcode'
+
+export function sePic(ctx: Context) {
+  ctx.command('色图 <level>').action(async (_, level) => {
+    const reply = await grabPhoto(level)
+    if (reply) {
+      return reply
+    }
+  })
+}
+
+async function grabPhoto(level: string) {
+  const { se_api_key, se_api_endpoint } = process.env
+  if (se_api_endpoint) {
+    const res = await fetch(
+      `${se_api_endpoint}?${new URLSearchParams({
+        apikey: se_api_key || '',
+        r18: level === '18' ? 1 : 0,
+        size1200: true,
+      } as any).toString()}`
+    )
+
+    const data = await res.json()
+    if (data.data) {
+      return cqCreator(CQType.Image, {
+        file: data.data[0].url,
+        type: 'show',
+      })
+    }
+  }
+}

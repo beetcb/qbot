@@ -1,4 +1,5 @@
 import { App } from 'koishi'
+import { sePic } from './plugin/se'
 import { talkBot } from './plugin/talk'
 import { transPinyin } from './plugin/transPinyin'
 
@@ -12,6 +13,6 @@ const config = {
 
 const app = new App(config as any)
 
-app.plugin(transPinyin).plugin(talkBot)
+app.plugin(transPinyin).plugin(sePic).plugin(talkBot)
 
 app.start()

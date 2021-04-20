@@ -3,6 +3,7 @@ import crypto from 'crypto'
 import { config } from 'dotenv'
 import { resolve } from 'path'
 import { Context } from 'koishi'
+import { cqParser, CQType } from '../cqcode'
 
 config({ path: resolve(__dirname, '../../.env') })
 
@@ -19,17 +20,19 @@ interface ReqParamsObject {
 
 type ParamsKeys = keyof ReqParamsObject
 
-const targetUsers: Array<string> = ['2293213908', '2384571336', '1764237497']
-
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
-    if (targetUsers.includes(session.userId!)) {
-      if (session.subtype! === 'private') {
-        const reply = await charBot(session.content!, session.userId!)
-        reply && session.send(reply)
-      } else {
-        if (session.content!.includes('at')) {
-          const reply = await charBot(session.content!.replace(/\[.+\]\s/, ''), session.userId!)
+    const { content, userId } = session
+    if (session.subtype! === 'private') {
+      console.log(session)
+      const reply = await charBot(content!, userId!)
+      reply && session.send(reply)
+    } else {
+      const parse = cqParser(content!)
+      if (parse) {
+        const { cqType, message } = parse
+        if (cqType === CQType.At) {
+          const reply = await charBot(message, userId!)
           reply && session.send(reply)
         }
       }
