@@ -24,8 +24,15 @@ const targetUsers: Array<string> = ['2293213908', '2384571336', '1764237497']
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
     if (targetUsers.includes(session.userId!)) {
-      const reply = await charBot(session.content!, session.userId!)
-      reply && session.send(reply)
+      if (session.subtype! === 'private') {
+        const reply = await charBot(session.content!, session.userId!)
+        reply && session.send(reply)
+      } else {
+        if (session.content!.includes('at')) {
+          const reply = await charBot(session.content!.replace(/\[.+\]\s/, ''), session.userId!)
+          reply && session.send(reply)
+        }
+      }
     }
     return next()
   })
