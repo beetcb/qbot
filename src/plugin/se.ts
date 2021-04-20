@@ -14,7 +14,6 @@ export function sePic(ctx: Context) {
 
 async function grabPhoto(level: string | number) {
   const { se_api_key, se_api_endpoint } = process.env
-  console.log(typeof level)
   if (se_api_endpoint) {
     const res = await fetch(
       `${se_api_endpoint}?${new URLSearchParams({
