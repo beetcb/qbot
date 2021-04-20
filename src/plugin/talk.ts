@@ -11,7 +11,7 @@ const { app_id, app_key, api_endpoint } = process.env
 interface ReqParamsObject {
   app_id: number
   time_stamp: number
-  nonce_string: string
+  nonce_str: string
   session: string
   question: string
   sign?: string
@@ -35,26 +35,19 @@ async function charBot(content: string, session: string): Promise<string | undef
   if (app_id) {
     const reqParams: ReqParamsObject = {
       app_id: Number(app_id),
-      time_stamp: new Date().getTime(),
-      nonce_string: randomString(),
+      time_stamp: Math.floor(Date.now() / 1000),
+      nonce_str: randomString(),
       question: content,
       session: session,
     }
 
     reqParams.sign = tRepSign(reqParams)
-
     if (api_endpoint) {
-      const res = await fetch(api_endpoint, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify(reqParams),
-      })
-
+      const res = await fetch(`${api_endpoint}?${new URLSearchParams(reqParams as any).toString()}`)
       if (res.ok) {
         const data = await res.json()
-        return data.answer
+        console.log(data)
+        return data.data.answer
       }
     }
   } else {
@@ -64,7 +57,7 @@ async function charBot(content: string, session: string): Promise<string | undef
 
 function randomString(): string {
   const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
-  return Array(8)
+  return Array(16)
     .fill(null)
     .reduce((s = '') => (s += str.charAt(Math.floor(Math.random() * 48))), '')
 }
@@ -86,6 +79,8 @@ function tRepSign(reqParams: ReqParamsObject): string {
   } else {
     throw new Error('environment variable not found: app_key')
   }
+
+  console.log(new URLSearchParams(result as any).toString())
 
   // Step 4
   return crypto
