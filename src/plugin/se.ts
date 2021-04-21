@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import { Context } from 'koishi'
-import { cqCreator, CQType } from '../cqcode'
+import { cqCreator, CQType } from '../utils/cqcode'
 
 export function sePic(ctx: Context) {
   ctx.command('色图 <level>').action(async (_, level) => {
