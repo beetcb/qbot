@@ -87,11 +87,15 @@ async function translateImg(url: string, source: string | undefined = 'en', targ
       })
       if (res.ok) {
         const data = await res.json()
-        return data.data.image_records.reduce(
-          (str: string, v: { source_text: string; target_text: string }) =>
-            `${str}${v.source_text}\n${v.target_text}\n\n`,
+        const source = data.data.image_records.reduce(
+          (str: string, v: { source_text: string; target_text: string }) => `${str}${v.source_text}`,
           ''
         )
+        const target = data.data.image_records.reduce(
+          (str: string, v: { source_text: string; target_text: string }) => `${str}${v.target_text}`,
+          ''
+        )
+        return `原文：${source}\n\n翻译：${target}`
       }
     }
   } else {
