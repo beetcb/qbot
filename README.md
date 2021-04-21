@@ -43,7 +43,7 @@ help：
     api_endpoint = https://api.ai.qq.com/fcgi-bin/nlp/nlp_textchat
     trans_api_endpoint = https://api.ai.qq.com/fcgi-bin/nlp/nlp_texttranslate
     trans_img_api_endpoint = https://api.ai.qq.com/fcgi-bin/nlp/nlp_imagetranslate
-    se_api_key = 涩图API KEY
+    se_api_key = 涩图 API KEY
     se_api_endpoint = https://api.lolicon.app/setu/
     ```
 3. 登录运行机器人
