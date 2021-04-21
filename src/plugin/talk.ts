@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { sweetNothing } from './sweet'
 import { Bot, Context } from 'koishi'
 import { cqParser, CQType } from '../utils/cqcode'
 import { ReqParamsObject, tReqSign, randomString } from '../utils/tReqSign'
@@ -45,7 +46,11 @@ async function charBot(content: string, session: string): Promise<string | undef
       const res = await fetch(`${api_endpoint}?${new URLSearchParams(reqParams as any).toString()}`)
       if (res.ok) {
         const data = await res.json()
-        return data.data.answer
+        let answer = data.data.answer
+        if (!answer) {
+          answer = await sweetNothing()
+        }
+        return answer
       }
     }
   } else {
