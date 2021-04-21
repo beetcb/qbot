@@ -24,15 +24,22 @@ export function trans(ctx: Context) {
     .option('out', '-o <target> 翻译目标语言')
     .action(async ({ options }, message) => {
       const parse = cqParser(message)
+      let reply
       if (parse) {
         const { cqType, queryObject, message } = parse
-        const reply =
-          cqType === CQType.Image
-            ? await translateImg((queryObject as any).url, options?.in, options?.out)
-            : await translate(message, options?.in, options?.out)
-
-        return reply
+        if (cqType === CQType.Image) {
+          // Img translate
+          reply = await translateImg((queryObject as any).url, options?.in, options?.out)
+        } else {
+          // Text translate
+          reply = await translate(message, options?.in, options?.out)
+        }
+      } else {
+        // Text translate in private session
+        reply = await translate(message, options?.in, options?.out)
       }
+
+      return reply
     })
 }
 
