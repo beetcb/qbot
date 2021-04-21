@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { delay } from '../utils/delay'
 import { sweetNothing } from './sweet'
 import { Bot, Context } from 'koishi'
 import { cqParser, CQType } from '../utils/cqcode'
@@ -13,6 +14,8 @@ const { app_id, app_key, api_endpoint } = process.env
 
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
+    // delay 0-5 seconds
+    await delay(5)
     const { content, userId } = session
     if (session.subtype! === 'private') {
       const reply = await charBot(content!, userId!)
@@ -20,8 +23,8 @@ export function talkBot(ctx: Context) {
     } else {
       const parse = cqParser(content!)
       if (parse) {
-        const { cqType, message } = parse
-        if (cqType === CQType.At) {
+        const { cqType, queryObject, message } = parse
+        if (cqType === CQType.At && (queryObject as any).id === '2293213908') {
           const reply = await charBot(message, userId!)
           reply && session.send(reply)
         }
