@@ -1,6 +1,6 @@
 ### Qbot 简介
 
-Qbot 是我基于 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 和 [koishi](https://github.com/koishijs/koishi) 两个优秀工具写的**娱乐项目**
+Qbot 是我基于 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 和 [koishi](https://github.com/koishijs/koishi) 两个优秀工具写的**娱乐 QQ 机器人**
 
 ### 特色
 
