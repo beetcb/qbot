@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import { Context } from 'koishi'
 
 export function transPinyin(ctx: Context) {
-  ctx.command('说人话 <pinyin>').action(async (_, message) => {
+  ctx.command('说人话 <pinyin>', '帮你翻译看不懂的拼音简写').action(async (_, message) => {
     const reply = await trans(message)
     if (reply) {
       return reply.trans.join('\n')

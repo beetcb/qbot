@@ -3,7 +3,7 @@ import { Context } from 'koishi'
 import { cqCreator, CQType } from '../utils/cqcode'
 
 export function sePic(ctx: Context) {
-  ctx.command('色图 <level>').action(async (_, level) => {
+  ctx.command('色图 <level>', '发送悦目的图片').action(async (_, level) => {
     const reply = await grabPhoto(level)
     console.log(reply)
     if (reply) {

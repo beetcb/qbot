@@ -12,9 +12,9 @@ const { app_id, app_key, trans_api_endpoint } = process.env
 
 export function trans(ctx: Context) {
   ctx
-    .command('翻译 <message:text>')
-    .option('in', '-i <source>')
-    .option('out', '-o <target>')
+    .command('翻译 <message:text>', '语言机器翻译')
+    .option('in', '-i <source> 源语言')
+    .option('out', '-o <target> 翻译目标语言')
     .action(async ({ options }, message) => {
       if (message) {
         const reply = await translate(message, options?.in, options?.out)

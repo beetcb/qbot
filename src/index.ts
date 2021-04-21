@@ -1,9 +1,8 @@
 import { App } from 'koishi'
-import { trans } from './plugin/trans'
-import { sePic } from './plugin/se'
+import { trans } from './cmd/trans'
+import { sePic } from './cmd/se'
 import { talkBot } from './plugin/talk'
-
-import { transPinyin } from './plugin/transPinyin'
+import { transPinyin } from './cmd/transPinyin'
 
 require('koishi-adapter-onebot')
 
