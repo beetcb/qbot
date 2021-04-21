@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "image-to-base64": "^2.2.0",
     "node-fetch": "^2.6.1"
   }
 }
