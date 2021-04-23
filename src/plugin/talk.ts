@@ -1,7 +1,8 @@
 import fetch from 'node-fetch'
 import { delay } from '../utils/delay'
-import { sweetNothing } from './sweet'
-import { Bot, Context } from 'koishi'
+import { Context } from 'koishi'
+import { sweetNothing } from '../utils/sweet'
+import { checkAutoReply } from '../utils/checkAutoReply'
 import { cqParser, CQType } from '../utils/cqcode'
 import { ReqParamsObject, tReqSign, randomString } from '../utils/tReqSign'
 
@@ -14,19 +15,19 @@ const { app_id, app_key, api_endpoint } = process.env
 
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
-    // delay 0-5 seconds
-    await delay(5)
+    // delay 0-10 seconds
+    await delay(10)
     const { content, userId } = session
-    if (session.subtype! === 'private') {
+    if (session.subtype! === 'private' && !checkAutoReply(content)) {
       const reply = await charBot(content!, userId!)
-      reply && session.send(reply)
+      reply && session.sendQueued(reply)
     } else {
       const parse = cqParser(content!)
       if (parse) {
         const { cqType, queryObject, message } = parse
         if (cqType === CQType.At && (queryObject as any).id === '2293213908') {
           const reply = await charBot(message, userId!)
-          reply && session.send(reply)
+          reply && session.sendQueued(reply)
         }
       }
     }

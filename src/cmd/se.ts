@@ -5,7 +5,7 @@ import { cqCreator, CQType } from '../utils/cqcode'
 export function sePic(ctx: Context) {
   ctx
     .command('涩图 <level>', '发送悦目的图片', {
-      minInterval: 5,
+      minInterval: 5000,
     })
     .action(async (_, level) => {
       const reply = await grabPhoto(level)
