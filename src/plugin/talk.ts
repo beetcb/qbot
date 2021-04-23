@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import { delay } from '../utils/delay'
 import { Context } from 'koishi'
 import { sweetNothing } from '../utils/sweet'
 import { cqParser, CQType } from '../utils/cqcode'
@@ -14,8 +13,6 @@ const { app_id, app_key, api_endpoint } = process.env
 
 export function talkBot(ctx: Context) {
   ctx.middleware(async (session, next) => {
-    // delay 0-10 seconds
-    await delay(10)
     const { content, userId } = session
     if (session.subtype! === 'private') {
       const reply = await charBot(content!, userId!)
