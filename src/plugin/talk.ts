@@ -2,7 +2,6 @@ import fetch from 'node-fetch'
 import { delay } from '../utils/delay'
 import { Context } from 'koishi'
 import { sweetNothing } from '../utils/sweet'
-import { checkAutoReply } from '../utils/checkAutoReply'
 import { cqParser, CQType } from '../utils/cqcode'
 import { ReqParamsObject, tReqSign, randomString } from '../utils/tReqSign'
 
@@ -18,7 +17,7 @@ export function talkBot(ctx: Context) {
     // delay 0-10 seconds
     await delay(10)
     const { content, userId } = session
-    if (session.subtype! === 'private' && !checkAutoReply(content)) {
+    if (session.subtype! === 'private') {
       const reply = await charBot(content!, userId!)
       reply && session.sendQueued(reply)
     } else {
