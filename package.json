@@ -17,6 +17,11 @@
     "url": "https://github.com/beetcb/qbot/issues"
   },
   "homepage": "https://github.com/beetcb/qbot#readme",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 80
+  },
   "devDependencies": {
     "@types/node-fetch": "^2.5.10",
     "koishi": "^3.9.1",
